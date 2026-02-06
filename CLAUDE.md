@@ -28,3 +28,4 @@ Monorepo layout:
 - Backend code goes in `/backend` with tests alongside.
 - Frontend code goes in `/frontend` with tests alongside.
 - The product owner will be briefed by the user at runtime — do not assume what the product is.
+- The **Product Backlog** lives in `backlog.db` (SQLite, WAL mode), managed via `backlog_db.py`. Import `get_backlog` to access it. The DB supports concurrent read/write by multiple agents.

@@ -114,3 +114,43 @@ Examples:
 - `Bonnie (Backend Engineer)`, `Beryl (Backend Engineer 2)`
 - `Fiona (Frontend Engineer)`, `Fred (Frontend Engineer 2)`
 - `Sally (Scrum Master)`, `Paula (Product Owner)`
+
+## Product Backlog
+
+The backlog is stored in `backlog.db` (SQLite with WAL mode for concurrent access) and managed via `backlog_db.py`.
+
+### Usage
+
+```python
+from backlog_db import get_backlog
+
+bl = get_backlog()  # singleton per DB path
+
+# Product Owner creates items
+item = bl.add("User login", description="OAuth2 flow", item_type="story", priority=10, sprint="sprint-1", created_by="Paula")
+
+# Scrum Master assigns work
+item.assign("Barry")
+
+# Engineer transitions status
+item.update_status("ready", agent="Sam")
+item.update_status("in_progress", agent="Barry")
+
+# Anyone can comment
+item.comment("Barry", "Blocked on API key")
+
+# Query the backlog
+ready_items = bl.get_backlog(status="ready")
+sprint_items = bl.get_sprint("sprint-1")
+my_items = bl.get_backlog(assigned_to="Barry")
+```
+
+### Status flow
+
+`backlog` → `ready` → `in_progress` → `review` → `done`
+
+Backward transitions are allowed: `ready` → `backlog`, `in_progress` → `ready`, `review` → `in_progress`.
+
+### Item types
+
+`story`, `bug`, `task`, `spike`
