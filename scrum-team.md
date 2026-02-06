@@ -124,32 +124,36 @@ The backlog is stored in `backlog.db` (SQLite with WAL mode for concurrent acces
 ```python
 from backlog_db import get_backlog_db
 
-bl = get_backlog_db()  # singleton per DB path
+bl = get_backlog_db(agent="Paula")  # identify yourself once
 
-# Product Owner creates items
-item = bl.add("User login", description="OAuth2 flow", item_type="story", priority=10, sprint="sprint-1", created_by="Paula")
+# Product Owner creates items (agent identity recorded automatically)
+epic = bl.add("User login", description="OAuth2 flow", item_type="story", priority=10, sprint="sprint-1")
+subtask = bl.add("Token refresh", parent=epic.id, item_type="task")
 
 # Scrum Master assigns work
-item.assign("Barry", agent="Sam")
+epic.assign("Barry")
 
 # Engineer transitions status
-item.update_status("ready", agent="Sam")
-item.update_status("in_progress", agent="Barry")
+epic.update_status("ready")
+epic.update_status("in_progress")
 
 # Anyone can comment
-item.comment("Barry", "Blocked on API key")
+epic.comment("Blocked on API key")
 
 # Query the backlog
 ready_items = bl.list_items(status="ready")
-sprint_items = bl.get_sprint("sprint-1")
+sprint_items = bl.list_items(sprint="sprint-1")
 my_items = bl.list_items(assigned_to="Barry")
+children = bl.list_items(parent=epic.id)
 ```
+
+See `Backlog-API-guide.md` for the full API reference.
 
 ### Status flow
 
-`backlog` → `ready` → `in_progress` → `review` → `done`
+`backlog` ↔ `ready` ↔ `in_progress` ↔ `review` → `done`
 
-Backward transitions are allowed: `ready` → `backlog`, `in_progress` → `ready`, `review` → `in_progress`.
+Backward transitions are allowed. `done` is terminal.
 
 ### Item types
 
