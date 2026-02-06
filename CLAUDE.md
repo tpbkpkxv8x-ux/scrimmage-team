@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-Read `scrum-team.md` in this repo and follow it. You are the scrum master (team lead).
+Read `scrum-team.md` in this repo and follow it. You are the scrum master (servant leader).
 
 ## Tech Stack
 
