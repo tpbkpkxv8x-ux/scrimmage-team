@@ -1,5 +1,5 @@
 """
-Product Backlog — SQLite-backed scrum backlog for parallel agent teams.
+Product Backlog — SQLite-backed scrimmage backlog for parallel agent teams.
 
 Designed for concurrent read/write by multiple agents. Uses WAL mode,
 busy_timeout, and thread-local connections for safe multi-agent access.

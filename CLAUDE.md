@@ -1,8 +1,8 @@
-# Scrum Team
+# Scrimmage Team
 
 ## Getting Started
 
-Read `scrum-team.md` in this repo and follow it. You are the scrum master (servant leader).
+Read `scrimmage-team.md` in this repo and follow it. If you have not already been assigned a role in the team, then you are the scrimmage master (servant leader).
 
 ## Tech Stack
 
