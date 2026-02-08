@@ -1,5 +1,7 @@
 # Scrimmage Team
 
+**NB**: The details in this file (Tech Stack, Repo Structure, etc) are specific to the particular project the Scrimmage Team is working on in this repo. 
+
 ## Getting Started
 
 Read `scrimmage-team.md` in this repo and follow it. If you have not already been assigned a role in the team, then you are the scrimmage master (servant leader).
