@@ -63,7 +63,7 @@ Every method that creates or returns items gives you a `BacklogItem` with these 
 | `title` | `str` | Short summary. Must not be empty. |
 | `description` | `str` or `None` | Detailed requirements or acceptance criteria. |
 | `item_type` | `str` | One of: `story`, `bug`, `task`, `spike`. |
-| `status` | `str` | One of: `backlog`, `ready`, `in_progress`, `review`, `merged`, `done`. |
+| `status` | `str` | One of: `backlog`, `ready`, `in_progress`, `review`, `merged`, `done`, `parked`. |
 | `priority` | `int` | Higher = more important. Must be an integer. |
 | `sprint` | `str` or `None` | Sprint name, or `None` if unscheduled. |
 | `assigned_to` | `str` or `None` | Agent name, or `None` if unassigned. |
@@ -79,11 +79,14 @@ Every method that creates or returns items gives you a `BacklogItem` with these 
 backlog <--> ready <--> in_progress <--> review --> merged --> done
                                     \                  |
                                      `<--- (rework) <--'
+
+Any status (except done) --> parked --> backlog
 ```
 
 `review` can also transition directly to `done` (skipping `merged`).
 `merged` can go back to `in_progress` if rework is needed after merge.
 `done` is terminal — no transitions out of it.
+`parked` takes an item out of active flow. The only way back is through `backlog`.
 
 ## Item Types
 
@@ -513,7 +516,7 @@ for e in events:
 
 **Raises:** `LookupError` if the item doesn't exist.
 
-Event types: `created`, `status_change`, `assigned`, `comment`, `priority_change`, `sprint_change`, `parent_change`, `title_change`, `description_change`.
+Event types: `created`, `status_change`, `assigned`, `comment`, `priority_change`, `sprint_change`, `parent_change`, `title_change`, `description_change`, `deleted`.
 
 ---
 
@@ -550,4 +553,4 @@ bl.close()
 | `result` | Must be `str` or `None` (`TypeError` if e.g. a dict). |
 | `comment text` | Must be a non-empty, non-whitespace string. |
 | `parent` | Must reference an existing item. Self-references and cycles are rejected. |
-| `status transitions` | Must follow the valid status flow. `done` is terminal. |
+| `status transitions` | Must follow the valid status flow. `done` is terminal. Any status except `done` can transition to `parked`; `parked` can only return to `backlog`. |

@@ -292,8 +292,11 @@ See `Backlog-API-guide.md` for the full API reference.
 
 `backlog` ↔ `ready` ↔ `in_progress` ↔ `review` → `merged` → `done`
 
+Any status (except `done`) → `parked` → `backlog`
+
 - **`merged`** = code is on master branch.
 - **`done`** = confirmed deployed and working in production.
+- **`parked`** = removed from active flow (blocked, deprioritised, etc.). Can only return to `backlog`.
 - `review` can go directly to `done` (skipping `merged`), but the recommended flow is through `merged`.
 - `merged` can go back to `in_progress` if rework is needed.
 - Backward transitions are allowed except out of `done`. **`done` is terminal.**

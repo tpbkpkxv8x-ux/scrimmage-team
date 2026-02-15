@@ -91,7 +91,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt  # TODO: customize
+          pip install -e ".[dev]"  # TODO: customize
           cd infra && npm ci               # TODO: customize
 
       # TODO: Add your deployment phases here

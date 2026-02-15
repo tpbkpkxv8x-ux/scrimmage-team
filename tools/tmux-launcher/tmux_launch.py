@@ -35,10 +35,11 @@ from __future__ import annotations
 import argparse
 import os
 import shlex
+import shutil
 import subprocess
 from dataclasses import dataclass, field
 
-CLAUDE_BIN = "/usr/local/bin/claude"
+CLAUDE_BIN = shutil.which("claude") or "/usr/local/bin/claude"
 
 # Environment variables injected into every agent window.
 AGENT_ENV: dict[str, str] = {
