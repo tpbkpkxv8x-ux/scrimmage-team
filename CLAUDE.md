@@ -42,7 +42,6 @@ Configuration for `worktree_setup.py` — parsed automatically when creating age
 ```yaml
 symlinks:
   - scrimmage
-  - infra
 deps:
   - dir: backend
     cmd: pip install -e ".[dev]"
@@ -54,23 +53,6 @@ deps:
 
 See `scrimmage/scrimmage-team.md` § Local Verification Pipeline for the standard checks to run before requesting review.
 
-## Model Tier Discipline
-
-Use the right model tier for each task to balance cost and capability:
-
-- **Haiku** — low-stakes reads and searches: grep/glob operations, reading files, running tests, linting. Use haiku subagents for anything that doesn't require reasoning.
-- **Sonnet** — standard implementation: writing code, fixing bugs, writing tests, documentation. Most engineering work uses sonnet.
-- **Opus** — complex reasoning only: architecture decisions, cross-cutting refactors, debugging subtle issues, coordination. SM and PO default to opus.
-
-**Rule:** If a task can be done by a cheaper tier, use the cheaper tier. Opus agents should delegate mechanical subtasks (running tests, searching code, reading files) to haiku subagents.
-
-## Key Process Rules
-
-- **Never commit directly to master** from a worktree. Always use feature branches and merge via the standard workflow.
-- **Deploy from main repo** — branch deploys use `scrimmage/branch_deploy.sh` from the main repo path, not from worktrees.
-- **Backlog is the source of truth** — all work items, status changes, and comments go through `scrimmage/backlog_db.py`.
-- **One item per agent** — each agent works on one backlog item at a time, then exits.
-
 ## Environment
 
 - Architecture: aarch64 (ARM64) Linux container
@@ -78,14 +60,6 @@ Use the right model tier for each task to balance cost and capability:
 - Node.js and npm available system-wide
 - No sudo access — install Python packages with `pip install --user` or in a venv
 - AWS credentials: see `scrimmage/docs/aws-credentials-setup.md` for MFA-protected temporary credential setup
-
-## Knowledge Management
-
-Write lessons learned to `scrimmage/notes/*.md`, NOT to Claude auto-memory (`~/.claude/`). The `scrimmage/notes/` directory is git-tracked and survives clones.
-
-- Role-specific lessons → `scrimmage/notes/{role}.md`
-- Cross-cutting issues → `scrimmage/notes/known-issues.md`
-- Critical always-know-this rules → propose additions to this file (`CLAUDE.md`)
 
 ## Compaction Instructions
 

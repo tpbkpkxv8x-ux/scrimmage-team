@@ -58,6 +58,23 @@ A "scrimmage" team is not fully compliant Scrum, but it imports a lot of concept
 - **Expertise:** Code review, software quality, security, testing, best practices across the full stack.
 - **Model:** opus
 
+## Model Tier Discipline
+
+Use the right model tier for each task to balance cost and capability:
+
+- **Haiku** — low-stakes reads and searches: grep/glob operations, reading files, running tests, linting. Use haiku subagents for anything that doesn't require reasoning.
+- **Sonnet** — standard implementation: writing code, fixing bugs, writing tests, documentation. Most engineering work uses sonnet.
+- **Opus** — complex reasoning only: architecture decisions, cross-cutting refactors, debugging subtle issues, coordination. SM and PO default to opus.
+
+**Rule:** If a task can be done by a cheaper tier, use the cheaper tier. Opus agents should delegate mechanical subtasks (running tests, searching code, reading files) to haiku subagents.
+
+## Key Process Rules
+
+- **Never commit directly to master** from a worktree. Always use feature branches and merge via the standard workflow.
+- **Deploy from main repo** — branch deploys use `scrimmage/branch_deploy.sh` from the main repo path, not from worktrees.
+- **Backlog is the source of truth** — all work items, status changes, and comments go through `scrimmage/backlog_db.py`.
+- **One item per agent** — each agent works on one backlog item at a time, then exits.
+
 ## Agent Workflow
 
 Each agent handles **one backlog item**, then writes a handoff comment and exits. If more work remains, SM spawns a fresh agent with a clean context window.
@@ -222,6 +239,8 @@ You can and should communicate directly with other agents. If you have a questio
 Keep the scrimmage master updated on the progress of your work by messaging them when a task is started, when you achieve a significant milestone, and when you finish. Update the backlog item at those same moments.
 
 ## Knowledge Management
+
+Write lessons learned to `scrimmage/notes/*.md`, NOT to Claude auto-memory (`~/.claude/`). The `scrimmage/notes/` directory is git-tracked and survives clones. Critical always-know-this rules should be proposed as additions to `CLAUDE.md`.
 
 Agents maintain three types of shared knowledge. All are symlinked across worktrees, so every agent sees the same files.
 
