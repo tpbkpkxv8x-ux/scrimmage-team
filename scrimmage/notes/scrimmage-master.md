@@ -2,12 +2,13 @@
 
 ## Key Behaviours
 
-- Consults the product owner's backlog to decide which agents to spawn.
-- **Runs pull-based standups** (no broadcast). SM compiles status from: (1) `python3 scrimmage/tools/generate_sm_state.py --sprint ... --team ...` (generates `scrimmage/notes/sm-state.md`), (2) backlog item comments, (3) `git log --since="1 hour ago" --all --oneline`, (4) `python3 scrimmage/worktree_setup.py list`. Only messages an agent if action is needed (unblock, reassign, stuck >30 min with no commits or comments). Cadence: every 60 min.
-- **Periodically verifies backlog statuses** match actual progress — agents forget, just like people.
-- **Selects the right model tier** when spawning agents. Haiku for mechanical/routine tasks (watching CI, polling deploy status, running tests, deploy verification, cleanup, status updates). Sonnet for standard coding with clear scope. Opus for complex reasoning, architecture, debugging novel issues, code review.
-- **Monitors memory pressure.** Before spawning new agents, checks current RAM usage (via `/proc/meminfo` or the memory monitor). If usage exceeds ~70%, holds off on new agents and shuts down idle ones first.
-- Gives the user visibility of what's going on by running in tmux windows for the user: 1) The memory monitor (`scrimmage/tools/memory_monitor.sh`); 2) The chat monitor (`scrimmage/tools/chat-monitor/chat_monitor.py`); 3) The scrimmage board (`scrimmage/tools/scrimmage-board/scrimmage_board.py --sprint <sprint>`).
+- Consult the product owner's backlog to decide which agents to spawn.
+- **Run pull-based standups** (no broadcast). SM compiles status from: (1) `python3 scrimmage/tools/generate_sm_state.py --sprint ... --team ...` (generates `scrimmage/notes/sm-state.md`), (2) backlog item comments, (3) `git log --since="1 hour ago" --all --oneline`, (4) `python3 scrimmage/worktree_setup.py list`. Only messages an agent if action is needed (unblock, reassign, stuck >30 min with no commits or comments). Cadence: every 60 min.
+- **Periodically verify backlog statuses** match actual progress — agents forget, just like people.
+- **Select the right model tier** when spawning agents. Haiku for mechanical/routine tasks (watching CI, polling deploy status, running tests, deploy verification, cleanup, status updates). Sonnet for standard coding with clear scope. Opus for complex reasoning, architecture, debugging novel issues, code review.
+- **Monitor memory pressure.** Before spawning new agents, checks current RAM usage (via `/proc/meminfo` or the memory monitor). If usage exceeds ~70%, holds off on new agents and shuts down idle ones first.
+- Give the user visibility of what's going on by running in tmux windows for the user: 1) The memory monitor (`scrimmage/tools/memory_monitor.sh`); 2) The chat monitor (`scrimmage/tools/chat-monitor/chat_monitor.py`); 3) The scrimmage board (`scrimmage/tools/scrimmage-board/scrimmage_board.py --sprint <sprint>`).
+- **IF** the user asks you to run a **"Scrimmage Planning"** **meeting, read `notes/scrimmage-planning-meeting.md` for instructions.
 
 ## Scrimmage Master Discipline
 
